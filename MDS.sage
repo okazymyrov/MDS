@@ -80,6 +80,11 @@ class MDS(SageObject):
 		r'''
 			Convert circulant matrix to the generator, otherwise g is None.
 		'''
+
+		if self._G is None:
+			self._g = None
+			return
+
 		G = self._G[:]
 		self._g = self._G.column(0).list()
 		self.__convert_g_G()
@@ -123,6 +128,10 @@ class MDS(SageObject):
 		for i in xrange(self._nbr):
 			for j in xrange(self._nbr):
 				self._G[i,j] = self._K((self._L[i*self._n:(i+1)*self._n,j*self._n:(j+1)*self._n]).column(0))
+
+				if self._L[i*self._n:(i+1)*self._n,j*self._n:(j+1)*self._n] != self._G[i,j]._matrix_():
+					self._G = None
+					return
 
 	def __convert_L_system(self):
 		r'''
@@ -306,6 +315,11 @@ class MDS(SageObject):
 			Print self._G in numerical notation
 		'''
 		print "G:"
+
+		if self._G is None:
+			print "None"
+			return
+
 		for i in xrange(self._nbr):
 			for j in xrange(self._nbr):
 				print "%.2X"%self._G[i][j].integer_representation(),
@@ -337,28 +351,34 @@ class MDS(SageObject):
 				g_test	- check g on equality
 		'''
 		verbose = kwargs.get('verbose',False)
-		g_test = kwargs.get('g_test',False)
 
 		state = randint(0,2^(self._nbr*self._nbc)-1)
 
-		s1 = self.__MDS_matrix(state)
-		s2 = self.__MDS_matrix_2(state)
-		s3 = self.__MDS_system(state)
-		if g_test == True:
+		decision = []
+
+		if self._G is not None:
+			s1 = self.__MDS_matrix(state)
+			decision.append(s1)
+
+		if self._L is not None:
+			s2 = self.__MDS_matrix_2(state)
+			decision.append(s2)
+
+		if self._system is not None:
+			s3 = self.__MDS_system(state)
+			decision.append(s3)
+
+		if self._g is not None:
 			s4 = self.__MDS_mul(state)
+			decision.append(s4)
 
 		if verbose == True:
-			print "MDS		= {0:x}".format(s1)
-			print "L		= {0:x}".format(s2)
-			print "system		= {0:x}".format(s3)
-			if g_test == True:
-				print "mul		= {0:x}".format(s4)
+			print "MDS\t: {0:x}".format(s1)
+			print "L\t: {0:x}".format(s2)
+			print "system\t: {0:x}".format(s3)
+			print "mul\t: {0:x}".format(s4)
 
-		if g_test == True:
-			if s1 != s2 or s1 != s3 or s1 != s4 or s2 != s3 or s2 != s4 or s3 != s4:
-				return False
+		if len(set(decision)) <= 1:
+			return True
 		else:
-			if s1 != s2 or s1 != s3 or s2 != s3:
-				return False
-
-		return True
+			return False

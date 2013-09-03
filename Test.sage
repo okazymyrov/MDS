@@ -38,7 +38,7 @@ def test_L():
 	m.print_system()
 
 	print "Selftesting	= {0}".format(m.selftesting())
-	#print "is_MDS		= {0}".format(m.is_MDS())
+	print "is_MDS		= {0}".format(m.is_MDS())
 
 	t2=cputime()
 

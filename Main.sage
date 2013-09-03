@@ -8,8 +8,8 @@ load Test.sage
 def main(argv=None):
 	#test_g()
 	#test_L()
-	#test_G()
-	test_L_Stribog()
+	test_G()
+	#test_L_Stribog()
 
 if __name__ == "__main__":
 	sys.exit(main())

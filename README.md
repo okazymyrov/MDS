@@ -1,6 +1,6 @@
 ## Overview
 
-The project includes Sage implementation that allows converting between MDS matrices over GF(2^n), matrices over  GF(2), system of equations over GF(2) and polynomials (circulant MDS matrices). It is also possible to check matrix on MDS property.
+The project includes Sage implementation to convert between MDS matrices over GF(2^n), matrices over  GF(2), system of equations over GF(2) and polynomials (circulant MDS matrices). It is also possible to check matrix on MDS property.
 
 Propositions, comments or other improvements are welcome for both program and description sources.
 
@@ -9,6 +9,11 @@ Propositions, comments or other improvements are welcome for both program and de
 Oleksandr Kazymyrov: oleksandr.kazymyrov (at) ii.uib.no
 
 ## Versions
+
+### Version 1.1
+
+* Added additional check for equivalence of conversion between elements of GF(2) and GF(2<sup>n</sup>).
+* Improved the selftesting procedure
 
 ### Version 1.0
 
