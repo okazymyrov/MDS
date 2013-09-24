@@ -168,7 +168,7 @@ class MDS(SageObject):
 			Perform MDS transformation as in AES using self._g
 		'''
 		g = self._P(self._g)
-		state = ZZ(state).digits(2^8,padto=self._nbr^2)
+		state = ZZ(state).digits(self._length,padto=self._nbr^2)
 
 		for i in xrange(self._nbr):
 			t=self._P([self._K.fetch_int(h) for h in state[i*self._nbr:i*self._nbr+self._nbr]])
@@ -178,7 +178,7 @@ class MDS(SageObject):
 				state[i*self._nbr+h]=t[h]
 
 		state = [i.integer_representation() for i in state]
-		state = ZZ(state,2^self._n)
+		state = ZZ(state,self._length)
 		
 		return state
 
@@ -186,13 +186,13 @@ class MDS(SageObject):
 		r'''
 			Perform MDS transformation as in AES using self._G
 		'''
-		S = matrix(self._K,self._nbr,[self._K.fetch_int(i) for i in ZZ(state).digits(2^8,padto=self._nbr^2)])
+		S = matrix(self._K,self._nbr,[self._K.fetch_int(i) for i in ZZ(state).digits(self._length,padto=self._nbr^2)])
 		S = S.transpose()
 
 		S = self._G*S
 
 		S = S.transpose()
-		state = ZZ([i.integer_representation() for i in S.list()],2^8)
+		state = ZZ([i.integer_representation() for i in S.list()],self._length)
 		
 		return state
 
@@ -302,12 +302,12 @@ class MDS(SageObject):
 
 			t = self._g[1].integer_representation()
 			if t >= 2:
-				s += "{0}*x+".format(t,i)
+				s += "{0}*x+".format(t)
 			elif t == 1:
 				s += "x+"
 			t = self._g[0].integer_representation()
 			if t >= 1:
-				s += "{0}".format(t,i)
+				s += "{0}".format(t)
 			print s
 
 	def print_G(self):
