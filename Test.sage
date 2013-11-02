@@ -79,7 +79,7 @@ def test_L_Stribog():
 	for i,p in enumerate(pol):
 		m = MDS(L=Stribog['L'],modulus=p)
 		m.convert()
-		if m.selftesting() == True:
+		if m.get_G() is not None:
 			print "polynomial = {0}".format(p)
 			break
 
