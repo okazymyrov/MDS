@@ -6,7 +6,7 @@ Propositions, comments or other improvements are welcome for both program and de
 
 ## Authors
 
-Oleksandr Kazymyrov: oleksandr.kazymyrov (at) ii.uib.no
+Oleksandr Kazymyrov: okazymyrov (at) gmail.com
 
 ## Versions
 
